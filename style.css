@@ -5,25 +5,27 @@
     margin: 0;
     box-sizing: border-box;
 }
+html, body{
+    overflow-x: hidden;
+    max-width: 100%;
+}
 body{
     font-family: 'Lexend';
-    height: 100vh;
-    width: 100vw;
-}
-.background-image{
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
-    z-index: -1;
+    background-image: url(./assets/background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 nav{
-    display: flex;
+    display: flex; 
     justify-content: flex-start;
     align-items: center;
     height: 10vh;
-    width: 100vw;
+    width: 100%;
+    padding: 0 1rem;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
 }
@@ -32,9 +34,13 @@ nav div:nth-child(1){
 }
 nav div img{
     height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
 nav div:nth-child(2){
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 1.2rem + 0.5vw, 1.5rem);
+    margin-left: 0.75rem;
 }
 .hero{
     display: flex;
@@ -42,36 +48,37 @@ nav div:nth-child(2){
     align-items: center;
     text-align: center;
     gap: 1.5rem;
-    width: 30vw;
-    margin: 3rem 10rem;
+    width: min(90vw, 600px);
+    margin: 3rem auto;
 }
 .hero-title{
-    font-size: 3rem;
+    font-size: clamp(1.75rem, 1.2rem + 3vw, 3rem);
     font-weight: 700;
 }
 .hero-description{
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 0.9rem + 0.6vw, 1.5rem);
     font-weight: 400;
 }
 .admin-btn{
     background-color: rgb(33, 191, 33);
     padding: 15px;
     border-radius: 10px;
+    box-sizing: border-box;
 }
 .admin-btn:hover{
     background-color: rgb(33, 136, 253);
     box-shadow: inset 5px -5px 10px rgba(33, 33, 33, 0.8);
-    padding: 12px 12px 18px 18px;
 }
-.admin-btn  a{
+.admin-btn a{
     text-decoration: none;
     color: white;
 }
 .cards{
     display: flex;
-    gap: 70px;
-    padding-left:120px;
-    padding-top:20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.25rem 1rem;
 }
 .card{
     display: flex;
@@ -100,4 +107,67 @@ nav div:nth-child(2){
 .card div:nth-child(3){
     font-weight: 400;
     font-size: 10px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    nav {
+        height: 8vh;
+    }
+    .hero{
+        width: 85vw;
+        margin: 2.5rem auto;
+    }
+    .cards{
+        gap: 1.25rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    nav {
+        height: 7vh;
+        justify-content: space-between;
+    }
+    .hero{
+        width: 92vw;
+        margin: 2rem auto;
+        gap: 1rem;
+        /* leave room for the fixed bottom bar so content isn't hidden behind it */
+        padding-bottom: 190px;
+    }
+
+    /* Dock the button + cards to the bottom of the screen */
+    .bottom-dock{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 0.5rem calc(0.75rem + env(safe-area-inset-bottom));
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+    }
+    .admin-btn{
+        order: -1; /* button above cards, if both live inside .bottom-dock */
+    }
+    .cards{
+        gap: 0.75rem;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: auto; /* if too many cards to fit one row, scroll within the dock instead of the page */
+    }
+    .card{
+        width: 96px;
+        flex: 0 0 auto;
+        padding: 8px;
+    }
+    .card img{
+        height: 24px;
+        width: 24px;
+    }
 }
